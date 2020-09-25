@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+    app:
+        container_name: quickstart-lib-app
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile-dev
+        volumes:
+            - ./../../../../pkg:/go/pkg
+            - ./:/go/src/github.com/hoangnguyen1247/quickstart-lib-go
+        ports:
+            - 8088:8018
+            - 5018:5018
+            - 2345:2345

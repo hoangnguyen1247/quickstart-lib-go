@@ -1,0 +1,32 @@
+FROM golang:1.12-alpine
+
+ENV GO111MODULE on
+ENV APP_ENV development
+
+RUN apk add bash ca-certificates curl git gcc g++ libc-dev autoconf automake libtool make
+RUN mkdir -p /go/src/github.com/hoangnguyen1247/quickstart-lib-go
+
+# Install protoc
+ENV PROTOBUF_URL https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-cpp-3.3.0.tar.gz
+RUN curl -L -o /tmp/protobuf.tar.gz $PROTOBUF_URL
+WORKDIR /tmp/
+RUN tar xvzf protobuf.tar.gz
+WORKDIR /tmp/protobuf-3.3.0
+RUN ./autogen.sh
+RUN ./configure --disable-dependency-tracking --prefix=/usr
+RUN make install
+
+RUN go get github.com/golang/protobuf/protoc-gen-go
+
+WORKDIR /go/src/github.com/hoangnguyen1247/quickstart-lib-go
+
+ADD . .
+
+RUN git config --global url."https://818cb63111f18cba3b17fd457c3baab377603abd:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+# RUN go get github.com/githubnemo/CompileDaemon
+# https://github.com/olivere/go-container-debugging
+RUN go get github.com/go-delve/delve/cmd/dlv
+
+# ENTRYPOINT CompileDaemon -build="go build -o build/cart ./main.go" -command="./build/cart"
+CMD ["dlv", "debug", "github.com/hoangnguyen1247/quickstart-lib-go", "--headless", "--listen=:2345", "--api-version=2", "--log"]
