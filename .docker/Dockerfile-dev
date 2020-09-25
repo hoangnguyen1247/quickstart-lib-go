@@ -6,23 +6,11 @@ ENV APP_ENV development
 RUN apk add bash ca-certificates curl git gcc g++ libc-dev autoconf automake libtool make
 RUN mkdir -p /go/src/github.com/hoangnguyen1247/quickstart-lib-go
 
-# Install protoc
-ENV PROTOBUF_URL https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-cpp-3.3.0.tar.gz
-RUN curl -L -o /tmp/protobuf.tar.gz $PROTOBUF_URL
-WORKDIR /tmp/
-RUN tar xvzf protobuf.tar.gz
-WORKDIR /tmp/protobuf-3.3.0
-RUN ./autogen.sh
-RUN ./configure --disable-dependency-tracking --prefix=/usr
-RUN make install
-
-RUN go get github.com/golang/protobuf/protoc-gen-go
-
 WORKDIR /go/src/github.com/hoangnguyen1247/quickstart-lib-go
 
 ADD . .
 
-RUN git config --global url."https://818cb63111f18cba3b17fd457c3baab377603abd:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+RUN git config --global url."https://a339fa1c5d81e950be0cbd89e1153138b1d44575:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
 # RUN go get github.com/githubnemo/CompileDaemon
 # https://github.com/olivere/go-container-debugging
