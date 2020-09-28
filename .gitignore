@@ -4,3 +4,6 @@
 
 # build
 /build
+
+# debug
+__debug_bin
