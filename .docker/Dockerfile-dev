@@ -14,7 +14,7 @@ RUN git config --global url."https://9bc010b1ddeb3dba248b721468f91ab85d1886af:x-
 
 # RUN go get github.com/githubnemo/CompileDaemon
 # https://github.com/olivere/go-container-debugging
-RUN go get github.com/go-delve/delve/cmd/dlv
+# RUN go get github.com/go-delve/delve/cmd/dlv
 
 # ENTRYPOINT CompileDaemon -build="go build -o build/cart ./main.go" -command="./build/cart"
 CMD ["dlv", "debug", "github.com/hoangnguyen1247/quickstart-lib-go", "--headless", "--listen=:2345", "--api-version=2", "--log"]
